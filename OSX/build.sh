@@ -49,9 +49,13 @@ function sign {
 
 
 sign
-
 bash ~/work/workaround/build/create-dmg.sh  "$APPFNAME" "$BRANCH"
 #codesign --deep --force --verify --verbose --sign $KEYID "${APPFNAME}.dmg"
+
+#or instead
+#~/Qt5.8/5.8/clang_64/bin/macdeployqt "$APPFNAMERP" -codesign=$KEYID -verbose=4 -no-plugins 2>&1 | tee macdeploy-sign.log
+
+
 
 FNDMG=nitrokey-app-`git describe`-$BRANCH.$CONFIG.dmg
 mv -v "${APPFNAME}.dmg"  "$FNDMG"
