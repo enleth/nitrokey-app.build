@@ -1,0 +1,60 @@
+#!/bin/bash
+
+set -x
+
+# Script for downloading sources from github and building code-signed DMG package
+# Run example:
+# bash build.sh ~/Qt5.8/5.8/clang_64/bin/ v1.1 "enable_log"
+# For unsigned build comment 'sign' function call at the script bottom
+
+KEYID=118E862D88E30998B6C4BACB8ABCB1FB486E1EB6
+#user password for unlocking keychain
+PASSWORD=xxx 
+
+QTPATH=$1
+BRANCH=$2
+CONFIG=$3
+
+DIRNAME=nitrokey-app.$BRANCH.$CONFIG
+
+git clone https://github.com/Nitrokey/nitrokey-app --recursive -b $BRANCH --depth 10 $DIRNAME
+
+cd $DIRNAME
+pushd libnitrokey/build
+cmake ..
+env MACOSX_DEPLOYMENT_TARGET=10.9 make -j4
+popd
+mkdir build-qmake
+cd build-qmake
+$QTPATH/qmake .. CONFIG+=$CONFIG
+env MACOSX_DEPLOYMENT_TARGET=10.9 make -j4
+
+APPFNAMEOLD=nitrokey-app.app
+APPFNAME="Nitrokey App $BRANCH"
+
+
+mv -v "$APPFNAMEOLD" "$APPFNAME"
+APPFNAMERP=`realpath "Nitrokey App $BRANCH"`
+
+$QTPATH/macdeployqt "$APPFNAME" 
+#cp /Users/jan/work/workaround/build/Info.plist "$APPFNAME"/Contents/
+
+function sign {
+	security unlock-keychain -p "$PASSWORD" /Users/jan/Library/Keychains/login.keychain
+	export CODESIGN_ALLOCATE=/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/codesign_allocate
+	/usr/bin/codesign --force --sign $KEYID --deep --timestamp=none "$APPFNAMERP"
+	/usr/bin/codesign --verify  "$APPFNAMERP" -dv
+	/usr/bin/codesign --verify  "$APPFNAMERP"
+}
+
+
+sign
+
+bash ~/work/workaround/build/create-dmg.sh  "$APPFNAME" "$BRANCH"
+#codesign --deep --force --verify --verbose --sign $KEYID "${APPFNAME}.dmg"
+
+FNDMG=nitrokey-app-`git describe`-$BRANCH.$CONFIG.dmg
+mv -v "${APPFNAME}.dmg"  "$FNDMG"
+ls -lh "$FNDMG"
+gsha512sum "$FNDMG" > "$FNDMG".sha512
+cp "$FNDMG"* ../../
