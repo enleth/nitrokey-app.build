@@ -26,5 +26,7 @@ It is possible to make signing on Linux with [2] but this was not tested yet for
 
 [1]
 http://stackoverflow.com/questions/20205162/user-interaction-is-not-allowed-trying-to-sign-an-osx-app-using-codesign/22637896#22637896
+
 [2] http://ilostmynotes.blogspot.com/2014/10/authenticode-signing-windows.html
+
 [3] https://msdn.microsoft.com/en-us/library/aa387764.aspx
