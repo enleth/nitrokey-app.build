@@ -1,0 +1,5 @@
+
+upx/%.exe: %.exe
+	-rm $@
+	upx $< -o $@
+	upx -t $@
