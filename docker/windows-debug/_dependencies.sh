@@ -26,6 +26,7 @@ rm -rf tmp* pkg/*
 pushd log
   find  -type f -exec gzip {} \;
 popd
+rm usr/i686-w64-mingw32.static.posix/bin/test*
 
 popd
 export PATH=$PATH:/mxe/usr/bin
