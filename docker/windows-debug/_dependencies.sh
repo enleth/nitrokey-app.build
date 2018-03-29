@@ -20,8 +20,13 @@ cd /
 git clone https://github.com/mxe/mxe.git --depth=10
 pushd mxe
 make -j4 MXE_TARGETS=i686-w64-mingw32.static.posix MXE_PLUGIN_DIRS=plugins/gcc6 qtbase qtsvg
-du -shc tmp*
-rm -rf tmp*
+du -shc tmp* pkg log
+rm -rf tmp* pkg/*
+
+pushd log
+  find  -type f -exec gzip {} \;
+popd
+
 popd
 export PATH=$PATH:/mxe/usr/bin
 ln -s /mxe/usr/bin mxe_bin
