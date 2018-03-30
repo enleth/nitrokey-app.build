@@ -7,6 +7,13 @@ if [ "$1xxx" != "xxx" ] ; then
         BRANCH=$1
 fi
 
+source /opt/qt59/bin/qt59-env.sh 
+export CC=gcc-5
+export CCX=g++-5
+
+update-alternatives --install /usr/bin/g++ g++ `which g++-5` 100
+update-alternatives --install /usr/bin/gcc gcc `which gcc-5` 100
+
 source /etc/os-release
 OS=$ID.$VERSION_ID
 SUFFIX=$OS-`date +"%Y%m%d.%H%M%S"`
@@ -36,9 +43,9 @@ popd
 
 
 # copy missing Qt librarires
-cp /usr/lib/x86_64-linux-gnu/libQt5Svg.so.5 $APPDIR/plugins/imageformats/ -v
+cp /opt/qt59/plugins/imageformats/libqsvg.so $APPDIR/plugins/imageformats/ -v
 mkdir -p $APPDIR/plugins/iconengines/ 
-cp /usr/lib/x86_64-linux-gnu/qt5/plugins/iconengines/libqsvgicon.so $APPDIR/plugins/iconengines/ -v
+cp /opt/qt59/plugins/iconengines/libqsvgicon.so $APPDIR/plugins/iconengines/ -v
 # Workaround to increase compatibility with older systems; see https://github.com/darealshinji/AppImageKit-checkrt for details
 mkdir -p $APPDIRX/usr/optional/ ; wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./$APPDIRX/usr/optional/exec.so
 mkdir -p $APPDIRX/usr/optional/libstdc++/ ; cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./$APPDIRX/usr/optional/libstdc++/
@@ -54,6 +61,10 @@ popd
 
 mkdir -p $OUTDIR
 mv -v $OUTNAME $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
+echo ===================================
+ls -lh $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
+readlink -f $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
+readlink -f $APPDIRX
 
 popd
 popd

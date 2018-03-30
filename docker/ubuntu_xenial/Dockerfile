@@ -9,11 +9,12 @@ RUN apt-get -qq install -yq --no-install-suggests --no-install-recommends --forc
 RUN apt-get -qq install -yq --no-install-suggests --no-install-recommends --force-yes g++-5
 RUN apt-get -qq install -yq --no-install-suggests --no-install-recommends --force-yes qt59base qt59tools qt59svg
 RUN apt-get -qq remove gcc-4.8 g++-4.8 --purge
-
+RUN apt-get install -yq make
+RUN apt-get install mesa-common-dev libglu1-mesa-dev -yq
 
 
 # run setup
-ADD ./*.sh /app
+ADD . /app
 WORKDIR /app/
 RUN bash _dependencies.sh
 
