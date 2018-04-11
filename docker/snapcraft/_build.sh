@@ -21,7 +21,8 @@ snapcraft
 pushd /app/nitrokey-app.snappy/parts/application/src/libnitrokey && git apply /app/nitrokey-app.snappy/libnitrokey.patch && popd
 snapcraft
 
-cp -b nitrokey-app*snap /build
+ls -lh nitrokey-app*snap
+cp -vb nitrokey-app*snap /build
 
 #echo "Test snap installation"
 #sudo snap install nitrokey-app --devmode
