@@ -19,7 +19,7 @@ cd /
 
 git clone https://github.com/mxe/mxe.git --depth=10
 pushd mxe
-make -j4 MXE_TARGETS=i686-w64-mingw32.static.posix MXE_PLUGIN_DIRS=plugins/gcc6 qtbase qtsvg
+make -j4 MXE_TARGETS=i686-w64-mingw32.static.posix MXE_PLUGIN_DIRS=plugins/gcc6 qtbase qtsvg libusb1
 du -shc tmp* pkg log
 rm -rf tmp* pkg/*
 
