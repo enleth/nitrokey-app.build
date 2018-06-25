@@ -38,14 +38,17 @@ qmake .. PREFIX=$APPDIR
 make -j4 install
 popd
 
-/linuxdeployqt-continuous-x86_64.AppImage $APPDIR/share/applications/nitrokey-app.desktop -bundle-non-qt-libs
+#EXTRAPLUGS=imageformats,iconengines/libqsvgicon.so,platforms,platformthemes
+EXTRAPLUGS=imageformats,iconengines,platforms,platformthemes
+/linuxdeployqt-continuous-x86_64.AppImage $APPDIR/share/applications/nitrokey-app.desktop -bundle-non-qt-libs -extra-plugins=${EXTRAPLUGS}
 #/linuxdeployqt-continuous-x86_64.AppImage $APPDIR/share/applications/nitrokey-app.desktop -appimage
 
 
 # copy missing Qt librarires
-cp /opt/qt59/plugins/imageformats/libqsvg.so $APPDIR/plugins/imageformats/ -v
-mkdir -p $APPDIR/plugins/iconengines/ 
-cp /opt/qt59/plugins/iconengines/libqsvgicon.so $APPDIR/plugins/iconengines/ -v
+#cp /opt/qt59/plugins/imageformats/libqsvg.so $APPDIR/plugins/imageformats/ -v
+#mkdir -p $APPDIR/plugins/iconengines/
+#cp /opt/qt59/plugins/iconengines/libqsvgicon.so $APPDIR/plugins/iconengines/ -v
+
 # Workaround to increase compatibility with older systems; see https://github.com/darealshinji/AppImageKit-checkrt for details
 mkdir -p $APPDIRX/usr/optional/ ; wget -c https://github.com/darealshinji/AppImageKit-checkrt/releases/download/continuous/exec-x86_64.so -O ./$APPDIRX/usr/optional/exec.so
 mkdir -p $APPDIRX/usr/optional/libstdc++/ ; cp /usr/lib/x86_64-linux-gnu/libstdc++.so.6 ./$APPDIRX/usr/optional/libstdc++/
@@ -62,8 +65,10 @@ popd
 mkdir -p $OUTDIR
 mv -v $OUTNAME $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
 echo ===================================
+echo Produced AppImage:
 ls -lh $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
 readlink -f $OUTDIR/Nitrokey_App-x86_64-$GIT.AppImage
+echo Source directory for produced AppImage:
 readlink -f $APPDIRX
 
 popd
