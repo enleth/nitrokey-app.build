@@ -15,7 +15,7 @@ export PATH=$PATH:/mxe/usr/bin
 
 cd /build
 
-git clone https://github.com/Nitrokey/nitrokey-app.git --recursive -b $BRANCH $NAME
+git clone https://github.com/Nitrokey/nitrokey-app.git --depth=10 --recursive -b $BRANCH $NAME
 cd $NAME
 git pull
 git checkout $BRANCH

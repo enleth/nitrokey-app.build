@@ -26,7 +26,7 @@ NAME=nitrokey-app.$BRANCH
 OUTNAME=Nitrokey_App-x86_64.AppImage 
 
 pushd $SRCDIR
-git clone https://github.com/Nitrokey/nitrokey-app --recursive -b $BRANCH $NAME
+git clone https://github.com/Nitrokey/nitrokey-app --depth=10 --recursive -b $BRANCH $NAME
 pushd $NAME
 git pull
 git submodule update --init --recursive
