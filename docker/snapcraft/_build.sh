@@ -17,7 +17,7 @@ snapcraft update
 snapcraft clean
 
 snapcraft
-#apply libnitrokey patch and install again
+echo ================= Apply libnitrokey patch and install again
 pushd /app/nitrokey-app.snappy/parts/application/src/libnitrokey && git apply /app/nitrokey-app.snappy/libnitrokey.patch && popd
 snapcraft
 
