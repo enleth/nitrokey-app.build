@@ -13,13 +13,15 @@ git config --global user.email "app.build@nitrokey.com"
 git config --global user.name "Nitrokey App Build"
 git stash save
 git pull
+snapcraft version
 snapcraft update
 snapcraft clean
 
 snapcraft
-echo ================= Apply libnitrokey patch and install again
-pushd /app/nitrokey-app.snappy/parts/application/src/libnitrokey && git apply /app/nitrokey-app.snappy/libnitrokey.patch && popd
-snapcraft
+
+#echo ================= Apply libnitrokey patch and install again
+#pushd /app/nitrokey-app.snappy/parts/application/src/libnitrokey && git apply /app/nitrokey-app.snappy/libnitrokey.patch && popd
+#snapcraft
 
 ls -lh nitrokey-app*snap
 cp -vb nitrokey-app*snap /build

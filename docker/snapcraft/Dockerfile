@@ -15,5 +15,9 @@ ADD _dependencies.sh /app
 WORKDIR /app/
 RUN bash _dependencies.sh
 
+RUN apt-get -qq install -yq snapd
+RUN snap start & sleep 1s && snap install snapcraft --classic
+RUN hash -r
+
 # set final default run command
 CMD ["/bin/bash","_build.sh"]

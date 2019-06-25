@@ -5,6 +5,7 @@ RUN apt-get install -qy --no-install-suggests --no-install-recommends upx-ucl gi
 RUN apt-get install -qy --no-install-suggests --no-install-recommends wget unzip p7zip-full cmake
 
 RUN apt-get install -qy --no-install-suggests --no-install-recommends --force-yes pkg-config build-essential git file curl wget
+RUN apt-get install -qy --no-install-suggests --no-install-recommends --force-yes lzip
 
 # run setup
 ADD . /app
