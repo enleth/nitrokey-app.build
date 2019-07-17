@@ -26,6 +26,7 @@ release: login
 
 .PHONY: localtest
 localtest:
+	sudo snap remove nitrokey-app
 	sudo snap install nitrokey-app --edge --classic
 	sudo snap refresh nitrokey-app --edge --classic
 	snap list nitrokey-app
