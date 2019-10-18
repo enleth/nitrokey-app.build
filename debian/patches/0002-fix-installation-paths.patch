@@ -1,0 +1,22 @@
+Description: Adjust installation paths in CMakeLists.txt
+ Adjust the installation paths in CMakeLists.txt to match the
+ paths used in Debian:
+ - The udev-rules should be installed into /lib/udev/rules.d.
+ - The locale file for German is installed into /usr/share/locale/de
+   instead of /usr/share/locale/de_DE.
+Author: Jan Luca Naumann <j.naumann@fu-berlin.de>
+Forwarded: not-needed
+Last-Update: 2016-10-04
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -161,8 +161,6 @@
+   ELSE()
+       set(UDEV_MAIN_DIR "${UDEV_MAIN_DIR}/rules.d")
+   ENDIF()
+-  string(REGEX REPLACE "^/" "" UDEV_MAIN_DIR "${UDEV_MAIN_DIR}")
+-  string(REGEX REPLACE "^usr/" "" UDEV_MAIN_DIR "${UDEV_MAIN_DIR}") # usual prefix is usr/local
+   message(STATUS "Setting udev rules dir to ${UDEV_MAIN_DIR}")
+ 
+   install(FILES

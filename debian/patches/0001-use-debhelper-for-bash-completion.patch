@@ -1,0 +1,33 @@
+Description: Remove bash-completion installation from CMakeLists.txt
+ The installation of the bash-completion files is removed from
+ CMakeLists.txt since the files will be installed using
+ the debhelper script dh_bash-completion.
+Author: Jan Luca Naumann <j.naumann@fu-berlin.de>
+Forwarded: not-needed
+Last-Update: 2016-10-03
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -162,21 +162,6 @@
+   # Install Nitrokey udev rules
+   # Removed - should be provided by libnitrokey
+ 
+-  # Install autocompletion scripts
+-  set(PKG_GET_BASH_COMPLETION ${PKG_CONFIG_EXECUTABLE} --variable=completionsdir bash-completion)
+-  execute_process(COMMAND ${PKG_GET_BASH_COMPLETION} RESULT_VARIABLE ERR OUTPUT_VARIABLE BASH_COMPLETION_DIR OUTPUT_STRIP_TRAILING_WHITESPACE)
+-  IF(${ERR})
+-    set(BASH_COMPLETION_DIR "etc/bash_completion.d")
+-  ENDIF()
+-  string(REGEX REPLACE "^/" "" BASH_COMPLETION_DIR "${BASH_COMPLETION_DIR}")
+-  string(REGEX REPLACE "^usr/" "" BASH_COMPLETION_DIR "${BASH_COMPLETION_DIR}") # usual prefix is usr/local
+-  message(STATUS "Setting bash-completion dir to ${BASH_COMPLETION_DIR}")
+-
+-  install(FILES
+-   ${CMAKE_SOURCE_DIR}/data/bash-autocomplete/nitrokey-app
+-    DESTINATION ${BASH_COMPLETION_DIR}
+-  )
+-
+ ENDIF () # NOT WIN32
+ 
+ 
